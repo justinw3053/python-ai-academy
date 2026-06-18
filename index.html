@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether OS - Space Station Academy</title>
+    <style>
+        :root {
+            --primary-color: #0f0;
+            --bg-color: #050505;
+            --scanline-color: rgba(0, 255, 0, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 2rem;
+            overflow-x: hidden;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        /* CRT Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, var(--scanline-color) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        .panel {
+            border: 1px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            background-color: rgba(0, 255, 0, 0.05);
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .manual {
+            border-color: #ff3333;
+            color: #ff3333;
+            text-shadow: 0 0 5px #ff3333;
+            background-color: rgba(255, 0, 0, 0.05);
+        }
+
+        .manual h2 {
+            color: #ff3333;
+            border-bottom: 1px solid #ff3333;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li::before {
+            content: "> ";
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: var(--bg-color);
+            background-color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #fff;
+            box-shadow: 0 0 15px #fff;
+        }
+
+        .blinking-cursor {
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: 1s blink step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { color: transparent; }
+            50% { color: var(--primary-color); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Space Station Academy: Operation Override</h1>
+        
+        <div id="boot-sequence">
+            <p>INITIALIZING AETHER OS v9.0...</p>
+            <p>CONNECTING TO MAIN MAINFRAME...</p>
+            <p>WARNING: SYSTEM CRITICAL DAMAGE DETECTED.</p>
+            <p>SECURITY AI (SEC-V4) LOCKED IN SOCRATIC MODE.</p>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <p>Welcome, <strong>Leonidas</strong>, to the Space Station "Aether"!</p>
+            <p>Your mission is to learn Python, become an AI Engineer, and repair the station's systems to retrieve the reactor reboot code.</p>
+
+            <div class="panel">
+                <h2>MISSION INSTRUCTIONS</h2>
+                <ul>
+                    <li><strong>Step 1:</strong> Open the terminal and type <code>pi</code> to wake up your digital teacher!</li>
+                    <li><strong>Step 2:</strong> Open the file <code>01A_Boot_Sequence.ipynb</code> from the left menu.</li>
+                    <li><strong>Step 3:</strong> Write code in the gray boxes and press Play (▶️).</li>
+                    <li><strong>Step 4:</strong> Once you solve an exercise, type <code>progress</code> to the Pi Agent!</li>
+                    <li><strong>Step 5:</strong> Don't forget to type <code>/new</code> to the Pi Agent at the start of each lesson to clear its memory.</li>
+                </ul>
+                <a href="01A_Boot_Sequence.ipynb" class="btn" onclick="alert('Go to the VS Code menu and click on 01A_Boot_Sequence.ipynb to start!')">START MISSION</a>
+            </div>
+
+            <div class="panel manual">
+                <h2>⚠️ EMERGENCY MANUAL</h2>
+                <ul>
+                    <li>Shields operate at 240V.</li>
+                    <li>The emergency code for oxygen is <strong>O2-RESCUE</strong>.</li>
+                    <li>In case of fire, close the gas valves immediately.</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 30px;">AETHER TERMINAL WAITING FOR INPUT<span class="blinking-cursor">_</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Simple boot sequence animation
+        const bootLines = document.querySelectorAll('#boot-sequence p');
+        const mainContent = document.getElementById('main-content');
+        let delay = 0;
+
+        bootLines.forEach((line, index) => {
+            line.style.opacity = '0';
+            setTimeout(() => {
+                line.style.opacity = '1';
+                // Beep sound effect approximation using visual flash
+                document.body.style.backgroundColor = '#111';
+                setTimeout(() => document.body.style.backgroundColor = 'var(--bg-color)', 50);
+            }, delay);
+            delay += 800; // 800ms between lines
+        });
+
+        setTimeout(() => {
+            document.getElementById('boot-sequence').style.display = 'none';
+            mainContent.classList.remove('hidden');
+        }, delay + 500);
+    </script>
+</body>
+</html>

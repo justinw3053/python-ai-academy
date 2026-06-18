@@ -1,0 +1,26 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "workbench.startupEditor": "readme",
+        "terminal.integrated.defaultLocation": "editor",
+        "terminal.integrated.tabs.enabled": true,
+        "python.formatting.provider": "black",
+        "python.analysis.typeCheckingMode": "basic",
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "editor.fontSize": 15,
+        "editor.lineHeight": 24,
+        "editor.wordWrap": "on",
+        "editor.minimap.enabled": false,
+        "files.encoding": "utf8",
+        "files.exclude": {
+            "**/.pi": true,
+            "**/__pycache__": true,
+            "**/.ipynb_checkpoints": true
+        }
+    }
+}

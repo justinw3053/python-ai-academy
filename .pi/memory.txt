@@ -1,0 +1,7 @@
+STUDENT NAME: Leonidas
+COMPLETED WORKBOOKS: []
+CURRENT WORKBOOK: 01_Boot_Sequence.ipynb
+NOTES & REMINDERS:
+- The student is 12 years old and learning Python & AI for the first time.
+- ALWAYS speak in English with an extremely friendly and supportive tone.
+- NEVER give him the ready solution code! Guide him Socratically by asking questions.
