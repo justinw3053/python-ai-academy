@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Station Override Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Panel 1: Narrative & Instructions -->
+        <div id="narrative-panel" class="panel">
+            <div class="panel-header">AETHER STATION COMM LINK</div>
+            <div id="narrative-content">
+                <h1>Initializing...</h1>
+                <p>Awaiting data from data cores...</p>
+            </div>
+        </div>
+
+        <!-- Panel 2: Code Editor (Monaco) -->
+        <div id="editor-panel" class="panel">
+            <div class="panel-header">MAIN REPAIR CONSOLE</div>
+            <div id="monaco-container"></div>
+            <div class="editor-controls">
+                <button id="run-btn">▶ ΕΚΤΕΛΕΣΗ (RUN)</button>
+            </div>
+        </div>
+
+        <!-- Panel 3: Terminal Output & Pi Agent Chat -->
+        <div id="comms-panel" class="panel">
+            <div class="panel-header">PI AGENT INTERFACE</div>
+            
+            <div id="terminal-output" class="sub-panel">
+                <div class="sub-panel-header">SYSTEM OUTPUT</div>
+                <pre id="output-content">></pre>
+            </div>
+
+            <div id="chat-interface" class="sub-panel">
+                <div class="sub-panel-header">SOCRATIC MENTOR</div>
+                <div id="chat-history"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ρώτησε τον Pi Agent..." />
+                    <button id="chat-send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- We will load Monaco and Pyodide scripts here in future issues -->
+    <script src="app.js"></script>
+</body>
+</html>

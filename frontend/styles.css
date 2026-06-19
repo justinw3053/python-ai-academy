@@ -1,0 +1,152 @@
+/* Retro-futuristic Space Station Theme */
+:root {
+    --bg-color: #0d1117;
+    --panel-bg: #161b22;
+    --text-primary: #c9d1d9;
+    --accent-color: #58a6ff;
+    --success-color: #3fb950;
+    --error-color: #f85149;
+    --border-color: #30363d;
+    --header-bg: #21262d;
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    overflow: hidden;
+}
+
+#app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    padding: 10px;
+    box-sizing: border-box;
+    gap: 10px;
+}
+
+.panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel-header {
+    background-color: var(--header-bg);
+    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 0.9em;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--accent-color);
+    letter-spacing: 1px;
+}
+
+#narrative-panel {
+    flex: 1;
+    min-width: 300px;
+}
+
+#narrative-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+#editor-panel {
+    flex: 2;
+    min-width: 400px;
+}
+
+#monaco-container {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.editor-controls {
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    background-color: var(--header-bg);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--success-color);
+    color: var(--bg-color);
+}
+
+#comms-panel {
+    flex: 1;
+    min-width: 300px;
+}
+
+.sub-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border-color);
+}
+
+.sub-panel-header {
+    background-color: var(--header-bg);
+    padding: 4px 12px;
+    font-size: 0.8em;
+    border-bottom: 1px solid var(--border-color);
+    color: #8b949e;
+}
+
+#terminal-output {
+    flex: 1;
+}
+
+#output-content {
+    padding: 10px;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+    color: var(--accent-color);
+}
+
+#chat-interface {
+    flex: 1.5;
+}
+
+#chat-history {
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+#chat-input {
+    flex-grow: 1;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px;
+    font-family: var(--font-main);
+}
