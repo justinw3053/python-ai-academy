@@ -16,8 +16,8 @@ async function loadPyodideAndPackages() {
       return result;
   };
   await self.pyodide.runPythonAsync(`
-import sys\nimport io\nimport builtins\nimport js\nimport ast\nimport types
-class CustomStdout(io.StringIO):\n    def write(self, string):\n        if string.strip():\n            from pyodide.ffi import to_js\n            js.postMessage(to_js({"type": "stdout", "message": string}))\n        return super().write(string)
+import sys\nimport io\nimport builtins\nimport js\nimport ast\nimport types\nimport json
+class CustomStdout(io.StringIO):\n    def write(self, string):\n        if string:\n            js.postMessage(json.dumps({"type": "stdout", "message": string}))\n        return super().write(string)
 sys.stdout = CustomStdout()\nsys.stderr = CustomStdout()
 def custom_input(prompt=""):\n    print(prompt, end="")\n    res = js.js_sync_input(prompt)\n    print(res)\n    return res
 builtins.input = custom_input

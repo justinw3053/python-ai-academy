@@ -48,5 +48,5 @@ Description: Space Station Academy
 CONTROL
 
 # Build the deb
-# dpkg-deb --build "$BUILD_DIR"
+dpkg-deb --build "$BUILD_DIR"
 echo "Build structure created successfully in build/"

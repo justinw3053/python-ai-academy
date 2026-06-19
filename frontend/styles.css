@@ -1,152 +1,467 @@
-/* Retro-futuristic Space Station Theme */
+/* Roblox Simulator "Squishy" Style Sheet - 2026 Kids App Overhaul */
 :root {
-    --bg-color: #0d1117;
-    --panel-bg: #161b22;
-    --text-primary: #c9d1d9;
-    --accent-color: #58a6ff;
-    --success-color: #3fb950;
-    --error-color: #f85149;
-    --border-color: #30363d;
-    --header-bg: #21262d;
-    --font-main: 'Courier New', Courier, monospace;
+    --bg-main: #b8d4fc; /* Gamified Soft Blue */
+    --bg-dot: #98c4f9;  /* Contrast blue for dot patterns */
+    --panel-bg: #ffffff; /* Crisp white cards */
+    --stroke-dark: #2d283c; /* Thick cartoon borders */
+    
+    /* Playful Palette */
+    --color-mission: #ff6b6b;   /* Coral Red */
+    --color-editor: #4a90e2;    /* Roblox Blue */
+    --color-agent: #ffb830;     /* Orange-Yellow */
+    --color-success: #55d75f;   /* Vibrant Simulator Green */
+    --color-error: #ff4d4d;     /* Danger Red */
+    --color-terminal: #241f31;  /* Deep purple terminal */
+    
+    --font-main: 'Fredoka', 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+    background-color: var(--bg-main);
+    background-image: radial-gradient(var(--bg-dot) 15%, transparent 16%);
+    background-size: 24px 24px;
     font-family: var(--font-main);
     overflow: hidden;
+    user-select: none;
 }
 
 #app-container {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
-    padding: 10px;
+    padding: 16px;
     box-sizing: border-box;
-    gap: 10px;
+    gap: 16px;
 }
 
+/* --- GAME HEADER / STATS BAR --- */
+#game-header {
+    background-color: #ffffff;
+    border: 4px solid var(--stroke-dark);
+    border-radius: 16px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 0 var(--stroke-dark);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-emoji {
+    font-size: 1.6em;
+    filter: drop-shadow(1.5px 1.5px 0 var(--stroke-dark));
+}
+
+.logo-title {
+    font-weight: 900;
+    font-size: 1.3em;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 
+        2px 2px 0 var(--stroke-dark),
+        -2px -2px 0 var(--stroke-dark),
+        2px -2px 0 var(--stroke-dark),
+        -2px 2px 0 var(--stroke-dark);
+}
+
+.stats-container {
+    display: flex;
+    gap: 12px;
+}
+
+.stat-badge {
+    background-color: #ffffff;
+    border: 3px solid var(--stroke-dark);
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-weight: 800;
+    font-size: 0.85em;
+    color: var(--stroke-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 0 var(--stroke-dark);
+    transition: transform 0.15s;
+}
+
+.stat-badge:hover {
+    transform: scale(1.05) translateY(-1px);
+}
+
+.badge-level {
+    border-color: var(--stroke-dark);
+    background-color: #ffe066; /* Level Up Gold */
+}
+
+.badge-streak {
+    border-color: var(--stroke-dark);
+    background-color: #ff8787; /* Heat Streak Pink */
+}
+
+.badge-energy {
+    border-color: var(--stroke-dark);
+    background-color: #74c0fc; /* Energy Cyan */
+}
+
+.badge-icon {
+    font-size: 1.1em;
+    filter: drop-shadow(1px 1px 0 var(--stroke-dark));
+}
+
+/* --- BENTO GRID SYSTEM --- */
+#main-bento-grid {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    min-height: 0;
+    gap: 16px;
+}
+
+/* Bento Cards (Panels) */
 .panel {
     background-color: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border: 4px solid var(--stroke-dark);
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-}
-
-.panel-header {
-    background-color: var(--header-bg);
-    padding: 8px 12px;
-    font-weight: bold;
-    font-size: 0.9em;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--accent-color);
-    letter-spacing: 1px;
+    box-shadow: 0 8px 0 var(--stroke-dark);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #narrative-panel {
-    flex: 1;
-    min-width: 300px;
+    flex: 1.1;
+    min-width: 320px;
 }
 
+#editor-panel {
+    flex: 1.8;
+    min-width: 440px;
+}
+
+#comms-panel {
+    flex: 1.1;
+    min-width: 320px;
+}
+
+/* Panel Header Badges */
+.panel-header {
+    padding: 12px 16px;
+    font-weight: 800;
+    font-size: 1.05em;
+    border-bottom: 4px solid var(--stroke-dark);
+    color: #ffffff;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 
+        2px 2px 0 var(--stroke-dark),
+        -2px -2px 0 var(--stroke-dark),
+        2px -2px 0 var(--stroke-dark),
+        -2px 2px 0 var(--stroke-dark);
+}
+
+#narrative-panel .panel-header {
+    background-color: var(--color-mission);
+}
+
+#editor-panel .panel-header {
+    background-color: var(--color-editor);
+}
+
+#comms-panel .panel-header {
+    background-color: var(--color-agent);
+}
+
+.header-icon {
+    width: 20px;
+    height: 24px;
+    vertical-align: middle;
+    filter: drop-shadow(1.5px 1.5px 0 var(--stroke-dark));
+}
+
+/* --- NARRATIVE / LESSON INTERFACE (READABILITY FIXES) --- */
 #narrative-content {
     padding: 20px;
     overflow-y: auto;
     flex-grow: 1;
+    min-height: 0;
+    color: #333333;
+    line-height: 1.6;
+    font-size: 0.95em;
+    font-weight: 600;
 }
 
-#editor-panel {
-    flex: 2;
-    min-width: 400px;
+#narrative-content h1 {
+    font-size: 1.4em;
+    margin-top: 0;
+    color: var(--color-mission);
+    border-bottom: 4px dashed var(--stroke-dark);
+    padding-bottom: 8px;
+    font-weight: 900;
 }
 
+#narrative-content h2 {
+    font-size: 1.2em;
+    color: var(--color-editor);
+    margin-top: 20px;
+    border-bottom: 3px dashed var(--stroke-dark);
+    padding-bottom: 6px;
+    font-weight: 900;
+}
+
+#narrative-content h3 {
+    font-size: 1.05em;
+    color: #495057;
+    margin-top: 15px;
+    font-weight: 800;
+}
+
+/* Inline Code Badges */
+#narrative-content code, .chat-bubble code {
+    background-color: #f1f3f5;
+    padding: 3px 6px;
+    border-radius: 8px;
+    border: 2px solid var(--stroke-dark);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 800;
+    font-size: 0.9em;
+    color: #2d283c;
+    display: inline-block;
+}
+
+#narrative-content ul, #narrative-content ol {
+    padding-left: 20px;
+}
+
+#narrative-content li {
+    margin-bottom: 8px;
+}
+
+/* Monaco Container and Controls */
 #monaco-container {
     flex-grow: 1;
     width: 100%;
+    min-height: 0;
+    height: 0;
+    border-bottom: 4px solid var(--stroke-dark);
 }
 
 .editor-controls {
-    padding: 10px;
-    border-top: 1px solid var(--border-color);
+    padding: 12px;
+    background-color: #f8f9fa;
     display: flex;
     justify-content: flex-end;
 }
 
+/* Playful 3D Tactile Buttons */
 button {
-    background-color: var(--header-bg);
-    color: var(--success-color);
-    border: 1px solid var(--success-color);
-    padding: 8px 16px;
+    background-color: var(--color-success);
+    color: #ffffff;
+    border: 3px solid var(--stroke-dark);
+    padding: 10px 24px;
     cursor: pointer;
     font-family: var(--font-main);
-    font-weight: bold;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    font-weight: 900;
+    font-size: 1em;
+    border-radius: 12px;
+    box-shadow: 0 6px 0 var(--stroke-dark);
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 
+        1.5px 1.5px 0 var(--stroke-dark),
+        -1.5px -1.5px 0 var(--stroke-dark),
+        1.5px -1.5px 0 var(--stroke-dark),
+        -1.5px 1.5px 0 var(--stroke-dark);
 }
 
 button:hover {
-    background-color: var(--success-color);
-    color: var(--bg-color);
+    transform: scale(1.03) translateY(-2px);
+    box-shadow: 0 8px 0 var(--stroke-dark);
+    background-color: #63e36e;
 }
 
-#comms-panel {
-    flex: 1;
-    min-width: 300px;
+button:active {
+    transform: scale(0.97) translateY(4px);
+    box-shadow: 0 2px 0 var(--stroke-dark);
 }
 
+#narrative-content button {
+    background-color: var(--color-editor);
+    font-size: 0.9em;
+    padding: 8px 16px;
+    box-shadow: 0 5px 0 var(--stroke-dark);
+}
+#narrative-content button:hover {
+    background-color: #5da2f5;
+}
+#narrative-content button:active {
+    box-shadow: 0 1px 0 var(--stroke-dark);
+}
+
+/* Comms Right Panel Layout */
 .sub-panel {
     flex: 1;
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--border-color);
+    border-bottom: 4px solid var(--stroke-dark);
+    min-height: 0;
+    background-color: #ffffff;
 }
 
 .sub-panel-header {
-    background-color: var(--header-bg);
-    padding: 4px 12px;
-    font-size: 0.8em;
-    border-bottom: 1px solid var(--border-color);
-    color: #8b949e;
+    background-color: #f1f3f5;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 800;
+    border-bottom: 3px solid var(--stroke-dark);
+    color: #495057;
+    display: flex;
+    align-items: center;
 }
 
+/* Deep Purple Terminal Style */
 #terminal-output {
     flex: 1;
+    background-color: var(--color-terminal);
 }
 
 #output-content {
-    padding: 10px;
+    padding: 12px;
     margin: 0;
     overflow-y: auto;
     flex-grow: 1;
-    color: var(--accent-color);
+    color: #00ffcc;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    line-height: 1.4;
+    min-height: 0;
+    background-color: var(--color-terminal);
 }
 
+/* Chat interface */
 #chat-interface {
-    flex: 1.5;
+    flex: 1.4;
+    min-height: 0;
+    border-bottom: none;
 }
 
 #chat-history {
-    padding: 10px;
+    padding: 12px;
     overflow-y: auto;
     flex-grow: 1;
+    min-height: 0;
+    background-color: #fdfdfd;
+}
+
+/* Chat Bubbles */
+.chat-bubble {
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    border: 3px solid var(--stroke-dark);
+    font-size: 0.9em;
+    font-weight: 600;
+    max-width: 85%;
+    display: inline-block;
+    box-shadow: 0 4px 0 var(--stroke-dark);
+}
+
+.student-bubble {
+    background-color: #e2f0fd;
+    color: #1a1a1a;
+    border-color: var(--stroke-dark);
+    float: right;
+    clear: both;
+}
+
+.agent-bubble {
+    background-color: #fff9db;
+    color: #1a1a1a;
+    border-color: var(--stroke-dark);
+    float: left;
+    clear: both;
 }
 
 .chat-input-area {
     display: flex;
-    padding: 10px;
-    border-top: 1px solid var(--border-color);
+    padding: 12px;
+    border-top: 4px solid var(--stroke-dark);
+    background-color: #f8f9fa;
+    gap: 8px;
 }
 
 #chat-input {
     flex-grow: 1;
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 8px;
+    background-color: #ffffff;
+    border: 3px solid var(--stroke-dark);
+    color: #333333;
+    padding: 10px;
     font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 0.95em;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+#chat-input:focus {
+    background-color: #f0f7ff;
+    border-color: var(--color-editor);
+}
+
+#chat-send {
+    background-color: var(--color-agent);
+    padding: 8px 16px;
+    font-size: 0.9em;
+    box-shadow: 0 4px 0 var(--stroke-dark);
+}
+#chat-send:hover {
+    background-color: #ffc95e;
+}
+#chat-send:active {
+    box-shadow: 0 1px 0 var(--stroke-dark);
+}
+
+/* Beautiful Scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-left: 3px solid var(--stroke-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border: 3px solid var(--stroke-dark);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a1a1;
+}
+
+/* Deep Purple scrollbar for terminal */
+#output-content::-webkit-scrollbar-track {
+    background: #1e1b29;
+    border-left: 3px solid var(--stroke-dark);
+}
+#output-content::-webkit-scrollbar-thumb {
+    background: #3e3556;
+    border: 3px solid var(--stroke-dark);
 }

@@ -4,7 +4,7 @@ import os
 # We would import ollama here, but since the target env has it and our test env might not,
 # we structure the generator to wrap the calls.
 
-def stream_chat(message, context):
+def stream_chat(message, context, lesson_id=''):
     """
     Streams the response from the local Ollama daemon using SSE format.
     """
@@ -17,11 +17,60 @@ def stream_chat(message, context):
         return
 
     # In production, we read the prompt from SYSTEM.md
-    system_prompt = "You are Pi Agent..." 
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    system_md_path = os.path.join(base_dir, '.pi', 'SYSTEM.md')
+    system_prompt = "You are Pi Agent..."
+    if os.path.exists(system_md_path):
+        with open(system_md_path, 'r', encoding='utf-8') as f:
+            system_prompt = f.read()
+            
+    # Load dynamic student memory context
+    memory_path = os.path.join(base_dir, '.pi', 'memory.txt')
+    memory_content = ""
+    if os.path.exists(memory_path):
+        with open(memory_path, 'r', encoding='utf-8') as f:
+            memory_content = f.read()
+
+    # Determine if active lesson is English
+    is_english_lesson = lesson_id.endswith('_eng.ipynb')
+
+    if not is_english_lesson:
+        # Greek lesson: Dynamic prompt translation to enforce Socratic Greek response
+        system_prompt = system_prompt.replace(
+            "You ALWAYS speak in English with an extremely friendly, encouraging, and supportive tone.",
+            "Μιλάς ΠΑΝΤΑ στα Ελληνικά με έναν εξαιρετικά φιλικό, ενθαρρυντικό και υποστηρικτικό τόνο."
+        )
+        system_prompt = system_prompt.replace(
+            "ALWAYS speak in English with an extremely friendly and supportive tone.",
+            "Μιλάς ΠΑΝΤΑ στα Ελληνικά με έναν εξαιρετικά φιλικό και υποστηρικτικό τόνο."
+        )
+        system_prompt = system_prompt.replace(
+            "When writing code comments or examples, use English comments.",
+            "Όταν γράφεις σχόλια κώδικα ή παραδείγματα, χρησιμοποίησε Ελληνικά σχόλια."
+        )
+
+    full_system_prompt = f"{system_prompt}\n\n### PERSISTENT STUDENT MEMORY:\n{memory_content}"
+    
+    # For local LLMs (like Gemma/Qwen) that sometimes ignore system prompts,
+    # we inject a high-attention reminder directly at the front of the user message.
+    if is_english_lesson:
+        reminder_prefix = (
+            "[INSTRUCTION: You are the Pi Agent digital assistant. Speak ONLY in English, in a friendly, supportive tone. "
+            "Strict rule: NEVER write or display the ready Python solution or more than 2 consecutive lines of ready code. "
+            "Guide the student Socratically using simple analogies, pseudocode, or guiding questions. "
+            f"Student's Monaco editor code: {context or 'None'}]\n\n"
+        )
+    else:
+        reminder_prefix = (
+            "[INSTRUCTION: Είσαι ο ψηφιακός βοηθός Pi Agent. Μίλα ΑΠΟΚΛΕΙΣΤΙΚΑ στα Ελληνικά, με εξαιρετικά φιλικό και υποστηρικτικό τόνο. "
+            "Αυστηρός κανόνας: ΠΟΤΕ μην γράφεις ή εμφανίζεις έτοιμο κώδικα Python ή πάνω από 2 συνεχόμενες γραμμές έτοιμου κώδικα. "
+            "Καθοδήγησε τον μαθητή Σωκρατικά χρησιμοποιώντας απλές αναλογίες, ψευδοκώδικα ή καθοδηγητικές ερωτήσεις. "
+            f"Κώδικας μαθητή στην κονσόλα: {context or 'None'}]\n\n"
+        )
     
     messages = [
-        {'role': 'system', 'content': f"{system_prompt}\nContext: {context}"},
-        {'role': 'user', 'content': message}
+        {'role': 'system', 'content': full_system_prompt},
+        {'role': 'user', 'content': f"{reminder_prefix}Student: {message}"}
     ]
     
     try:

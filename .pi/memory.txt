@@ -1,6 +1,6 @@
 STUDENT NAME: Leonidas
-COMPLETED WORKBOOKS: []
-CURRENT WORKBOOK: 01_Boot_Sequence.ipynb
+COMPLETED WORKBOOKS: ['Mission 1, Lesson 1']
+CURRENT WORKBOOK: Mission 1, Lesson 1
 NOTES & REMINDERS:
 - The student is 12 years old and learning Python & AI for the first time.
 - ALWAYS speak in English with an extremely friendly and supportive tone.

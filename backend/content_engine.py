@@ -52,5 +52,32 @@ def parse_notebook(filepath):
     return result
 
 def get_lesson_content(lesson_id):
-    # This will be expanded later to fetch from the actual content directory
-    pass
+    if not lesson_id.endswith('.ipynb'):
+        lesson_id += '.ipynb'
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    content_dir = os.path.join(base_dir, 'content')
+    filepath = os.path.join(content_dir, lesson_id)
+    if os.path.exists(filepath):
+        return parse_notebook(filepath)
+    return None
+
+def list_lessons():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    content_dir = os.path.join(base_dir, 'content')
+    if not os.path.exists(content_dir):
+        return []
+    
+    lessons = []
+    # Sort files to maintain curriculum order
+    for filename in sorted(os.listdir(content_dir)):
+        if filename.endswith('.ipynb') and not filename.endswith('_eng.ipynb'):
+            filepath = os.path.join(content_dir, filename)
+            try:
+                parsed = parse_notebook(filepath)
+                lessons.append({
+                    "id": filename,
+                    "title": parsed["title"]
+                })
+            except Exception:
+                pass
+    return lessons

@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify, send_from_directory, request, Response
 import backend.state_manager as state_manager
 import backend.llm_bridge as llm_bridge
+import backend.content_engine as content_engine
 
 def create_app(test_config=None):
     # create and configure the app, pointing static to the frontend folder
@@ -30,6 +31,17 @@ def create_app(test_config=None):
     @app.route('/api/health')
     def health():
         return jsonify({"status": "ok"})
+
+    @app.route('/api/lessons')
+    def lessons():
+        return jsonify(content_engine.list_lessons())
+
+    @app.route('/api/lessons/<lesson_id>')
+    def lesson_detail(lesson_id):
+        content = content_engine.get_lesson_content(lesson_id)
+        if content is None:
+            return jsonify({"error": "Lesson not found"}), 404
+        return jsonify(content)
         
     @app.route('/api/track', methods=['POST'])
     def track():
@@ -48,8 +60,9 @@ def create_app(test_config=None):
             
         message = data['message']
         context = data.get('context', '')
+        lesson_id = data.get('lessonId', '')
         
-        return Response(llm_bridge.stream_chat(message, context), mimetype='text/event-stream')
+        return Response(llm_bridge.stream_chat(message, context, lesson_id), mimetype='text/event-stream')
 
     return app
 
