@@ -31,42 +31,18 @@ def stream_chat(message, context, lesson_id=''):
         with open(memory_path, 'r', encoding='utf-8') as f:
             memory_content = f.read()
 
-    # Determine if active lesson is English
-    is_english_lesson = lesson_id.endswith('_eng.ipynb')
-
-    if not is_english_lesson:
-        # Greek lesson: Dynamic prompt translation to enforce Socratic Greek response
-        system_prompt = system_prompt.replace(
-            "You ALWAYS speak in English with an extremely friendly, encouraging, and supportive tone.",
-            "Μιλάς ΠΑΝΤΑ στα Ελληνικά με έναν εξαιρετικά φιλικό, ενθαρρυντικό και υποστηρικτικό τόνο."
-        )
-        system_prompt = system_prompt.replace(
-            "ALWAYS speak in English with an extremely friendly and supportive tone.",
-            "Μιλάς ΠΑΝΤΑ στα Ελληνικά με έναν εξαιρετικά φιλικό και υποστηρικτικό τόνο."
-        )
-        system_prompt = system_prompt.replace(
-            "When writing code comments or examples, use English comments.",
-            "Όταν γράφεις σχόλια κώδικα ή παραδείγματα, χρησιμοποίησε Ελληνικά σχόλια."
-        )
-
     full_system_prompt = f"{system_prompt}\n\n### PERSISTENT STUDENT MEMORY:\n{memory_content}"
     
     # For local LLMs (like Gemma/Qwen) that sometimes ignore system prompts,
     # we inject a high-attention reminder directly at the front of the user message.
-    if is_english_lesson:
-        reminder_prefix = (
-            "[INSTRUCTION: You are the Pi Agent digital assistant. Speak ONLY in English, in a friendly, supportive tone. "
-            "Strict rule: NEVER write or display the ready Python solution or more than 2 consecutive lines of ready code. "
-            "Guide the student Socratically using simple analogies, pseudocode, or guiding questions. "
-            f"Student's Monaco editor code: {context or 'None'}]\n\n"
-        )
-    else:
-        reminder_prefix = (
-            "[INSTRUCTION: Είσαι ο ψηφιακός βοηθός Pi Agent. Μίλα ΑΠΟΚΛΕΙΣΤΙΚΑ στα Ελληνικά, με εξαιρετικά φιλικό και υποστηρικτικό τόνο. "
-            "Αυστηρός κανόνας: ΠΟΤΕ μην γράφεις ή εμφανίζεις έτοιμο κώδικα Python ή πάνω από 2 συνεχόμενες γραμμές έτοιμου κώδικα. "
-            "Καθοδήγησε τον μαθητή Σωκρατικά χρησιμοποιώντας απλές αναλογίες, ψευδοκώδικα ή καθοδηγητικές ερωτήσεις. "
-            f"Κώδικας μαθητή στην κονσόλα: {context or 'None'}]\n\n"
-        )
+    # Enforces Greek Socratic dialogue but strictly English code generation/variables/comments.
+    reminder_prefix = (
+        "[INSTRUCTION: Είσαι ο ψηφιακός βοηθός Pi Agent. Μίλα ΑΠΟΚΛΕΙΣΤΙΚΑ στα Ελληνικά με εξαιρετικά φιλικό και υποστηρικτικό τόνο. "
+        "Strict rule: NEVER write or display the ready Python solution or more than 2 consecutive lines of ready code. "
+        "Force Leonidas to write his variables, syntax, comments, and solutions STRICTLY in English. "
+        "Guide the student Socratically using simple analogies, pseudocode, or guiding questions in Greek. "
+        f"Student's Monaco editor code: {context or 'None'}]\n\n"
+    )
     
     messages = [
         {'role': 'system', 'content': full_system_prompt},

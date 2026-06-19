@@ -73,6 +73,28 @@ body, html {
         -2px 2px 0 var(--stroke-dark);
 }
 
+/* Bilingual Input Shortcut Tip */
+#keyboard-tip {
+    background-color: #e8f0fe;
+    border: 3px solid var(--stroke-dark);
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-weight: 800;
+    font-size: 0.85em;
+    color: #1b4d8a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 0 var(--stroke-dark);
+    animation: pulse-tip 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-tip {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
 .stats-container {
     display: flex;
     gap: 12px;
